@@ -40,7 +40,6 @@ const createEvent = async (req, res) => {
 
 const listEvents = async (req, res) => {
   try {
-    console.log('hi');
     
     const events = await eventDB.find();
     res.status(200).json(events);

@@ -17,14 +17,14 @@ const authOrganizer = (req, res, next) => {
         message: "Organizer not authorized"
       });
     }
-
+    console.log('organizer', verifiedToken.role)
     if (verifiedToken.role !== "organizer") {
       return res.status(403).json({
         message: "Access denied: not an organizer"
       });
     }
 
-    req.organizer = verifiedToken._id;
+    req.organizer = verifiedToken.id;
 
     next();
 

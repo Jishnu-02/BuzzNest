@@ -49,7 +49,7 @@ const login = async (req, res) => {
     if (!isMatch)
       return res.status(400).json({ message: "Invalid credentials" });
 
-    const token = await createToken(organizer._id, "admin")
+    const token = await createToken(organizer._id, "organizer")
     res.cookie('token', token)
 
     return res.status(200).json({
