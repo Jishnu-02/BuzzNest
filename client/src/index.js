@@ -1,17 +1,20 @@
-import React from 'react';
+// src/index.js
+import React, { useMemo, useState } from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import { getTheme } from './theme'; // this is from the previous step
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const Root = () => {
+  const [mode, setMode] = useState('light');
+  const theme = useMemo(() => getTheme(mode), [mode]);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <App toggleTheme={() => setMode(prev => (prev === 'light' ? 'dark' : 'light'))} />
+    </ThemeProvider>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Root />);
