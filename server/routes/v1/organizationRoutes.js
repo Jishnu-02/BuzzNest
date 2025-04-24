@@ -1,5 +1,6 @@
 const organizerRouter = require('express').Router()
-const {register, login, logout} = require('../../controllers/organizerController')
+const {register} = require('../../controllers/organizerController')
+const {login, logout} = require('../../controllers/authController')
 
 organizerRouter.post('/register', register)
 organizerRouter.post('/login', login)

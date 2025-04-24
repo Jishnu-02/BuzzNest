@@ -2,8 +2,9 @@ const jwt = require('jsonwebtoken');
 
 const authOrganizer = (req, res, next) => {
   try {
-    const { token } = req.cookies;
-
+    
+    const token = req.headers.authorization;
+    
     if (!token) {
       return res.status(401).json({
         message: "JWT not found"

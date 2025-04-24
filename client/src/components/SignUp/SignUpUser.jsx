@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import axios from "axios";
-import { Box, Typography, TextField } from "@mui/material";
+import { Box, Typography, TextField, Link } from "@mui/material";
 import { styled } from "@mui/system";
-import StyledButton from "../StyledButton";
+import StyledButton from "../StyledComponents/StyledButton";
 
 // Styled form container
 const FormWrapper = styled(Box)(({ theme }) => ({
@@ -116,10 +116,11 @@ const SignUpUser = () => {
         label="Full Name"
         placeholder="Enter your full name"
         fullWidth
-        margin="normal"
         inputRef={nameRef}
         required
+        sx={{ mb: 3 }} // match Row's marginBottom
       />
+
 
       {/* Two fields per line */}
       <Row>
@@ -127,7 +128,6 @@ const SignUpUser = () => {
           label="Email Address"
           placeholder="Enter your email"
           fullWidth
-          margin="normal"
           inputRef={emailRef}
           required
         />
@@ -135,7 +135,6 @@ const SignUpUser = () => {
           label="Mobile Number"
           placeholder="Enter your mobile number"
           fullWidth
-          margin="normal"
           inputRef={mobileRef}
           required
         />
@@ -147,7 +146,6 @@ const SignUpUser = () => {
           placeholder="Create a password"
           type="password"
           fullWidth
-          margin="normal"
           inputRef={passwordRef}
           required
         />
@@ -156,16 +154,30 @@ const SignUpUser = () => {
           placeholder="Re-enter your password"
           type="password"
           fullWidth
-          margin="normal"
           inputRef={confirmPasswordRef}
           required
         />
       </Row>
 
+
       {/* Submit Button */}
       <StyledButton type="submit" fullWidth sx={{ mt: 3 }}>
         Register
       </StyledButton>
+
+      <Box mt={3} textAlign="center">
+        <Typography variant="body2" sx={{ color: "#ddd" }}>
+          Already have an account?{" "}
+          <Link
+            href="/login"
+            underline="hover"
+            sx={{ color: "#ff6e40", fontWeight: 600 }}
+          >
+            Log in
+          </Link>
+        </Typography>
+      </Box>
+
     </FormWrapper>
   );
 };

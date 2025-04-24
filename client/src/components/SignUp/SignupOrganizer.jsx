@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import axios from 'axios';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Link } from '@mui/material';
 import { styled } from '@mui/system';
 import TextField from '@mui/material/TextField';
-import StyledButton from '../StyledButton';
+import StyledButton from '../StyledComponents/StyledButton';
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -94,7 +94,7 @@ const SignupOrganizer = () => {
     };
 
     try {
-      const res = await axios.post(`${API_URL}api/v1/organizer/register`, organizerData, {
+      const res = await axios.post(`http://localhost:9999/api/v1/organizer/register`, organizerData, {
         headers: { 'Content-Type': 'application/json' },
       });
 
@@ -152,9 +152,22 @@ const SignupOrganizer = () => {
       <StyledButton type="submit" fullWidth sx={{ mt: 4 }} disabled={loading}>
         {loading ? 'Registering...' : 'Register'}
       </StyledButton>
+
+      <Box mt={3} textAlign="center">
+        <Typography variant="body2" sx={{ color: "#ddd" }}>
+          Already have an account?{" "}
+          <Link
+            href="/login"
+            underline="hover"
+            sx={{ color: "#ff6e40", fontWeight: 600 }}
+          >
+            Log in
+          </Link>
+        </Typography>
+      </Box>
+
     </FormWrapper>
   );
 };
 
 export default SignupOrganizer;
-  

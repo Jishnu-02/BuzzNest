@@ -6,6 +6,7 @@ import Login from '../pages/Login';
 import CreateEvent from '../pages/CreateEvent';
 import EventList from '../pages/EventList';
 import SignUp from '../pages/SignUp';
+import EventDetails from '../pages/EventDetails';
 // import NotFound from '../pages/NotFound'; 
 // import UserRoute from '../components/protectedRoutes/UserRoute';
 
@@ -19,6 +20,7 @@ const AppRoutes = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/create-event" element={<CreateEvent />} />
             <Route path="/events" element={<EventList />} />
+            <Route path="/event-details" element={<EventDetails />} />
         </Routes>
     )
 }

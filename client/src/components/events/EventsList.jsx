@@ -1,67 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Container, Row, Col, Card, Spinner, Badge } from 'react-bootstrap';
+import React, { useEffect, useRef, useState } from "react";
+import { Box, Grid, Container } from "@mui/material";
+import EventCard from "./EventCard";
+import { Row, Col } from "reactstrap";
 
-const EventsList = () => {
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const res = await axios.get('http://localhost:9999/api/v1/events/list-events');
-        setEvents(res.data || []);
-      } catch (err) {
-        console.error('Failed to fetch events:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEvents();
-  }, []);
-
+const EventsList = ({ events }) => {
   return (
-    <Container className="mt-5">
-      <h2 className="text-center mb-4">All Events</h2>
-
-      {loading ? (
-        <div className="text-center">
-          <Spinner animation="border" variant="primary" />
-        </div>
-      ) : events.length === 0 ? (
-        <p className="text-center text-muted">No events found.</p>
-      ) : (
+    <Container maxWidth="lg">
+      <Box py={4}>
         <Row>
-          {events.map(event => (
-            <Col key={event._id} sm={12} md={6} lg={4} className="mb-4">
-              <Card className="h-100 shadow-sm">
-                <Card.Img
-                  variant="top"
-                  src={event.image?.secure_url || event.image}
-                  alt={event.title}
-                  style={{ height: '200px', objectFit: 'cover' }}
+          {events.map((event) => (
+            <Col
+              item
+              xs={12}
+              sm={6}
+              md={4} 
+              style={{ marginBottom: '25px' }}             
+              key={event.id}
+            >
+              {/* Ensure full width inside Grid */}
+              <Box sx={{ flexGrow: 1, width: "100%", display: "flex" }}>
+                <EventCard
+                  title={event.title}
+                  image={event.image}
+                  location={event.location}
+                  date={event.date}
+                  status={event.status}
                 />
-                <Card.Body>
-                  <Card.Title>{event.title}</Card.Title>
-                  <Card.Text>
-                    {event.description?.slice(0, 100)}...
-                  </Card.Text>
-                  <div className="mb-2 text-muted">
-                    📍 {event.location}
-                  </div>
-                  <div className="text-muted">
-                    📅 {event.date} ⏰ {event.time}
-                  </div>
-                  <Badge bg="primary" className="mt-2">
-                    {event.category}
-                  </Badge>
-                </Card.Body>
-              </Card>
+              </Box>
             </Col>
           ))}
         </Row>
-      )}
+      </Box>
     </Container>
   );
 };

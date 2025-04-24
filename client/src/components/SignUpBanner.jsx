@@ -6,12 +6,12 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { styled } from "@mui/system";
+import { AnimatePresence, motion } from "framer-motion";
 
 import SignUpUser from "./SignUp/SignUpUser";
 import SignupOrganizer from "./SignUp/SignupOrganizer";
 import BannerImg from "../assets/images/homebanner/evnt-1.png";
 
-// Styled toggle button
 const StyledToggleButton = styled("button")(({ selected }) => ({
   flex: 1,
   padding: "12px 20px",
@@ -34,6 +34,8 @@ const StyledToggleButton = styled("button")(({ selected }) => ({
   },
 }));
 
+const MotionBox = motion(Box);
+
 const SignUpBanner = () => {
   const [userType, setUserType] = useState("user");
   const theme = useTheme();
@@ -52,7 +54,7 @@ const SignUpBanner = () => {
         backgroundImage: `url(${BannerImg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        paddingTop: { xs: "80px", sm: "100px" }, // Added padding to prevent overlap with navbar
+        paddingTop: { xs: "80px", sm: "100px" },
         paddingBottom: { xs: "80px", sm: "100px" }
       }}
     >
@@ -71,43 +73,59 @@ const SignUpBanner = () => {
       <Box
         sx={{
           position: "relative",
-          width: isMobile ? "90%" : 900, // Adjust width for mobile
+          width: isMobile ? "90%" : 900,
           backdropFilter: "blur(14px)",
           background: "rgba(255, 255, 255, 0.08)",
           borderRadius: 3,
           border: "1px solid rgba(255, 255, 255, 0.25)",
-          padding: isMobile ? 2 : 4, // Adjust padding for mobile
+          padding: isMobile ? 2 : 4,
           color: "#fff",
           zIndex: 2,
         }}
       >
-        {/* Custom ToggleButtonGroup */}
         <Box
           sx={{
             display: "flex",
             gap: 2,
             mb: 3,
-            flexDirection: "row", // Keep buttons in a row for all screen sizes
-            justifyContent: "space-evenly", // Distribute buttons evenly
+            justifyContent: "space-evenly",
           }}
         >
           <StyledToggleButton
             selected={userType === "user"}
             onClick={() => setUserType("user")}
-            style={{ fontSize: isMobile ? "0.875rem" : "1rem" }} // Adjust font size for mobile
+            style={{ fontSize: isMobile ? "0.875rem" : "1rem" }}
           >
             User
           </StyledToggleButton>
           <StyledToggleButton
             selected={userType === "organizer"}
             onClick={() => setUserType("organizer")}
-            style={{ fontSize: isMobile ? "0.875rem" : "1rem" }} // Adjust font size for mobile
+            style={{ fontSize: isMobile ? "0.875rem" : "1rem" }}
           >
             Organizer
           </StyledToggleButton>
         </Box>
 
-        {userType === "user" ? <SignUpUser /> : <SignupOrganizer />}
+        {/* Smooth content transition */}
+        <AnimatePresence mode="wait">
+          <MotionBox
+            key={userType}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -30 }}
+            transition={{ duration: 0.4 }}
+            sx={{
+              minHeight: isMobile ? 680 : 600, // Adjust this based on your tallest form
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {userType === "user" ? <SignUpUser /> : <SignupOrganizer />}
+          </MotionBox>
+        </AnimatePresence>
+
       </Box>
     </Box>
   );

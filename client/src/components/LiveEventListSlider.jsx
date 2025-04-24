@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import EventCard from "./EventCard";
+import EventCard from "./events/EventCard";
 import Event1 from "../assets/images/homebanner/evnt-1.png";
 import Event2 from "../assets/images/homebanner/event2.png";
 

@@ -92,8 +92,8 @@ const Navbar = () => {
 
     const navItems = [
         { label: "Home", path: "/" },
-        { label: "About", path: "/about" },
-        { label: "Contact", path: "/contact" },
+        // { label: "About", path: "/about" },
+        // { label: "Contact", path: "/contact" },
     ];
 
     const handleDrawerToggle = () => setOpenDrawer(!openDrawer);
@@ -118,7 +118,7 @@ const Navbar = () => {
                                 key={item.path}
                                 onClick={() => handleNavigation(item.path)}
                                 className={location.pathname === item.path ? "active" : ""}
-                                sx={{fontWeight: "600", fontSize: "1rem"}}
+                                sx={{ fontWeight: "600", fontSize: "1rem" }}
                             >
                                 {item.label}
                             </NavButton>
@@ -126,7 +126,14 @@ const Navbar = () => {
                     </Box>
 
                     <Box sx={{ display: { xs: "none", sm: "flex" }, fontWeight: "600", fontSize: "1rem" }}>
-                        Login/Signup
+                        <NavButton
+                            key="/login"
+                            onClick={() => handleNavigation('/login')}
+                            className={location.pathname === '/login' ? "active" : ""}
+                            sx={{ fontWeight: "600", fontSize: "1rem" }}
+                        >
+                            Login
+                        </NavButton>
                     </Box>
 
                     {/* Hamburger Icon */}

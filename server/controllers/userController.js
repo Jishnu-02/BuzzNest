@@ -1,5 +1,6 @@
 const userDB = require("../models/userModel")
 const { createToken } = require("../utilities/generateToken")
+const { isEmailTaken } = require("../utilities/isEmailTaken")
 const {hashPassword, comparePassword} = require("../utilities/passwordUtilities")
 
 const register = async(req, res) => {
@@ -18,7 +19,7 @@ const register = async(req, res) => {
             })
         }
 
-        const userExist = await userDB.findOne({email})
+        const userExist = await isEmailTaken( email );
 
         if(userExist) {
             return res.status(400).json({
@@ -55,64 +56,64 @@ const register = async(req, res) => {
     }
 }
 
-const login = async(req, res) => {
-    try {
-        const {email, password} = req.body
+// const login = async(req, res) => {
+//     try {
+//         const {email, password} = req.body
 
-        if(!email || !password) {
-            return res.status(400).json({
-                message: "Required fields are missing"
-            })
-        }
+//         if(!email || !password) {
+//             return res.status(400).json({
+//                 message: "Required fields are missing"
+//             })
+//         }
 
-        const userExist = await userDB.findOne({email})
+//         const userExist = await userDB.findOne({email})
 
-        if(!userExist) {
-            return res.status(404).json({
-                message: "User Not Found"
-            })
-        }
+//         if(!userExist) {
+//             return res.status(404).json({
+//                 message: "User Not Found"
+//             })
+//         }
 
-        const passwordMatch = await comparePassword(password, userExist.password)
+//         const passwordMatch = await comparePassword(password, userExist.password)
 
-        if(!passwordMatch){
-            return res.status(400).json({
-                message: "password doesn't match"
-            })
-        }
+//         if(!passwordMatch){
+//             return res.status(400).json({
+//                 message: "password doesn't match"
+//             })
+//         }
 
-        const token = await createToken(userExist._id)
-        res.cookie('token', token)
+//         const token = await createToken(userExist._id)
+//         res.cookie('token', token)
 
-        return res.status(200).json({
-            message: "user login successfull",
-            user: userExist
-        })
+//         return res.status(200).json({
+//             message: "user login successfull",
+//             user: userExist
+//         })
         
 
-    } catch(error) {
-        console.log(error)
-        res.status(error.status || 500).json({
-            message:error.message || "Internal server error"
-        })
-    }
-}
+//     } catch(error) {
+//         console.log(error)
+//         res.status(error.status || 500).json({
+//             message:error.message || "Internal server error"
+//         })
+//     }
+// }
 
 
-const logout = async(req, res) => {
-    try {
-        res.clearCookie("token")
-        res.status(200).json({message: "logout successfull"})
-    } catch(error) {
-        console.log(error)
-        res.status(error.status || 500).json({
-            message:error.message || "Internal server error"
-        })
-    }
-}
+// const logout = async(req, res) => {
+//     try {
+//         res.clearCookie("token")
+//         res.status(200).json({message: "logout successfull"})
+//     } catch(error) {
+//         console.log(error)
+//         res.status(error.status || 500).json({
+//             message:error.message || "Internal server error"
+//         })
+//     }
+// }
 
 module.exports = {
     register,
-    login,
-    logout
+    // login,
+    // logout
 }
